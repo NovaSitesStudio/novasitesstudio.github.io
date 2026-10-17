@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://novasitesstudio.github.io/sitemap.xml

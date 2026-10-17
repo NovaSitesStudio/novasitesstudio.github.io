@@ -381,3 +381,28 @@ button { font: inherit; color: inherit; cursor: pointer; }
   .cinta-in { animation-duration: 90s; }
 }
 @media (max-width: 900px) { .cifras { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 20px; } }
+
+/* ---------- Mejoras: accesibilidad, imágenes y formulario ---------- */
+img { height: auto; }
+.saltar { position: fixed; left: 16px; top: -60px; z-index: 1000; background: var(--tinta); color: #fff; padding: 10px 16px; border-radius: 10px; font-weight: 600; text-decoration: none; transition: top .2s; }
+.saltar:focus { top: 16px; }
+main:focus { outline: none; }
+
+.cotiza { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: clamp(28px, 5vw, 64px); align-items: start; }
+.cotiza .sec-tit { margin-bottom: 0; }
+.form-cotiza { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; background: var(--papel); border: 1px solid var(--linea); border-radius: 24px; padding: clamp(22px, 4vw, 36px); }
+.form-cotiza .ancho { grid-column: 1 / -1; }
+.campo { display: grid; gap: 8px; }
+.campo label { font-weight: 600; font-size: 15px; }
+.campo input, .campo select, .campo textarea { font: inherit; font-size: 16px; color: var(--texto); background: var(--blanco); border: 1.5px solid var(--linea); border-radius: 14px; padding: 12px 14px; min-height: 50px; width: 100%; transition: border-color .2s, box-shadow .2s; }
+.campo textarea { resize: vertical; min-height: 110px; }
+.campo input:focus, .campo select:focus, .campo textarea:focus { outline: none; border-color: var(--nova); box-shadow: 0 0 0 4px rgba(109, 93, 252, .15); }
+.form-error { color: #c0392b; font-weight: 600; font-size: 15px; }
+@media (max-width: 860px) {
+  .cotiza { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .form-cotiza { grid-template-columns: 1fr; }
+}
+.cabecera .btn-borde { border-color: rgba(255, 255, 255, .4); color: #fff; }
+.cabecera .btn-borde:hover { background: #fff; color: var(--tinta); border-color: #fff; }

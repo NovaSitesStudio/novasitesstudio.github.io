@@ -28,6 +28,10 @@ const CORREO = "exneillacevedo@gmail.com";
       if (el.dataset.esLabel === undefined) el.dataset.esLabel = el.getAttribute("aria-label") || "";
       el.setAttribute("aria-label", l === "en" ? el.dataset.enLabel : el.dataset.esLabel);
     });
+    $$("[data-en-ph]").forEach((el) => {
+      if (el.dataset.esPh === undefined) el.dataset.esPh = el.getAttribute("placeholder") || "";
+      el.setAttribute("placeholder", l === "en" ? el.dataset.enPh : el.dataset.esPh);
+    });
     const b = document.body.dataset;
     if (b.tituloEs) document.title = l === "en" ? b.tituloEn : b.tituloEs;
     if (boton) { boton.textContent = l === "en" ? "ES" : "EN"; boton.setAttribute("aria-label", l === "en" ? "Ver en español" : "View in English"); }
@@ -104,6 +108,31 @@ const CORREO = "exneillacevedo@gmail.com";
       }), { threshold: 0.35 })
     : null;
   if (io2) $$("[data-contar], .marco.desliza").forEach((el) => io2.observe(el));
+
+  // ---------- Formulario de cotización → WhatsApp ----------
+  const form = $("#form-cotiza");
+  if (form) {
+    const pre = new URLSearchParams(location.search).get("paquete");
+    if (pre && form.paquete.querySelector(`option[value="${CSS.escape(pre)}"]`)) form.paquete.value = pre;
+    form.nombre.addEventListener("input", () => { $("#f-error").hidden = true; });
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = (n) => form[n].value.trim();
+      const txt = (n) => form[n].selectedOptions[0].textContent.trim();
+      const err = $("#f-error");
+      if (!v("nombre")) { err.hidden = false; form.nombre.focus(); return; }
+      err.hidden = true;
+      const en = lang === "en";
+      const lineas = [
+        en ? `Hi! I'm ${v("nombre")} and I'd like a quote.` : `Hola, soy ${v("nombre")} y quiero una cotización.`,
+        v("negocio") && (en ? `Business: ${v("negocio")}` : `Negocio: ${v("negocio")}`),
+        (en ? "Package: " : "Paquete: ") + txt("paquete"),
+        (en ? "Timeline: " : "Para cuándo: ") + txt("plazo"),
+        v("mensaje") && (en ? `Details: ${v("mensaje")}` : `Detalles: ${v("mensaje")}`),
+      ].filter(Boolean);
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(lineas.join("\n"))}`, "_blank", "noopener");
+    });
+  }
 
   $$("[data-anio]").forEach((e) => (e.textContent = new Date().getFullYear()));
   idioma(lang);
