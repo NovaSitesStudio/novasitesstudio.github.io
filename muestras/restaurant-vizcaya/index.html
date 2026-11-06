@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Restaurant Vizcaya</title>
+<meta name="description" content="Paella, mariscos y porciones para compartir. Av. San Martín 42, Santo Domingo.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#fff6e0;--sf:#fffcf3;--ink:#2a160c;--mu:#6e5643;--ac:#b5121b;--ai:#ffffff;--li:#f0dfb8;--dsp:'Abril Fatface', Georgia, serif;--bod:'Work Sans', system-ui, sans-serif}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--bod);-webkit-font-smoothing:antialiased}
+[hidden]{display:none!important}
+a{color:inherit}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.barra{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--li)}
+.barra-in{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:66px}
+.marca{font:700 21px/1.1 var(--dsp);text-decoration:none;letter-spacing:.01em;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.barra-der{flex:none}
+.estado .corto{display:none}
+.barra-der{display:flex;align-items:center;gap:8px}
+.estado{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;padding:6px 12px;border-radius:999px;background:var(--sf);border:1px solid var(--li);white-space:nowrap}
+.estado i{width:8px;height:8px;border-radius:50%;background:#9ca3af;flex:none}
+.estado.abierto i{background:#22c55e;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.estado.cerrado i{background:#ef4444}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 20px;font-weight:700;font-size:16px;text-decoration:none;cursor:pointer;transition:transform .15s,filter .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.05)}
+.btn-p{background:var(--ac);color:var(--ai)}
+.btn-s{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--li)}
+.btn-s:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.btn-wa{background:#1fa855;color:#fff}
+.btn svg{width:18px;height:18px;flex:none}
+.btn-sm{padding:8px 14px;font-size:14px}
+.sec{padding:84px 0}
+.titulo{font:700 clamp(32px,4.4vw,52px)/1.05 var(--dsp);margin:0 0 12px;letter-spacing:-.01em;text-wrap:balance}
+.bajada{color:var(--mu);margin:0 0 34px;max-width:56ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--li);background:var(--sf);color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:600;font-size:15px;cursor:pointer;transition:border-color .15s,background .15s}
+.chip:hover{border-color:var(--ac)}
+.chip[aria-pressed="true"]{background:var(--ac);border-color:var(--ac);color:var(--ai)}
+.chip:disabled{opacity:.35;cursor:not-allowed}
+.grupo{border:0;margin:0 0 24px;padding:0}
+.grupo legend,.etq{display:block;font-weight:700;font-size:16px;margin-bottom:10px;padding:0}
+.campo{display:grid;gap:6px;margin-bottom:16px}
+.campo label{font-weight:700;font-size:15px}
+input[type=text],input[type=tel],input[type=date],textarea{width:100%;background:var(--sf);border:1.5px solid var(--li);border-radius:12px;padding:12px 14px;font-size:16px}
+input:focus,textarea:focus{border-color:var(--ac);outline:none}
+textarea{min-height:90px;resize:vertical}
+.aviso{font-size:14px;color:var(--mu);min-height:1.3em;margin:10px 0 0}
+.aviso.falta{color:var(--ac);font-weight:600}
+.info{border-top:1px solid var(--li)}
+.info-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px}
+.horario{list-style:none;margin:0;padding:0}
+.horario li{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--li);font-variant-numeric:tabular-nums}
+.horario li.hoy{font-weight:700;color:var(--ac)}
+.donde{display:grid;gap:14px;align-content:start}
+.donde p{margin:0}
+.resena{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600}
+.resena b{font:700 28px/1 var(--dsp)}
+.estrellas{color:var(--ac);letter-spacing:2px}
+.acciones{display:flex;flex-wrap:wrap;gap:10px}
+.pie{border-top:1px solid var(--li);padding:28px 0 calc(28px + env(safe-area-inset-bottom,0px));font-size:14px;color:var(--mu)}
+.pie-in{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px}
+.pie a{color:var(--ink)}
+.flota{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;width:58px;height:58px;border-radius:50%;background:#1fa855;display:grid;place-items:center;box-shadow:0 10px 24px -8px rgba(0,0,0,.5)}
+.flota svg{width:30px;height:30px;fill:#fff}
+@media (max-width:860px){.info-in{grid-template-columns:minmax(0,1fr);gap:36px}.sec{padding:60px 0}}
+@media (max-width:560px){.barra .ocultar-movil{display:none}.estado{font-size:13px;padding:5px 10px}.estado .largo{display:none}.estado .corto{display:inline}.marca{font-size:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+
+.hero{padding:64px 0 72px}
+.hero-in{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:48px;align-items:center}
+.cocina{font-weight:700;color:var(--ac);margin:0 0 12px;font-size:17px}
+.hero h1{font:700 clamp(52px,8.6vw,118px)/.92 var(--dsp);margin:0 0 18px;letter-spacing:-.02em;text-wrap:balance}
+.lema{font-size:clamp(20px,2.4vw,26px);font-weight:600;margin:0 0 10px}
+.intro{color:var(--mu);max-width:50ch;margin:0 0 26px}
+.plato{justify-self:center;width:min(320px,100%);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--sf) 0 46%,var(--li) 46.5% 48%,var(--sf) 48.5% 62%,var(--li) 62.5% 63.5%,transparent 64%);position:relative;box-shadow:0 40px 70px -40px rgba(0,0,0,.6)}
+.plato::before{content:"";position:absolute;left:-18%;top:20%;width:10px;height:60%;border-radius:6px;background:var(--mu);opacity:.5}
+.plato::after{content:"";position:absolute;right:-18%;top:20%;width:14px;height:60%;border-radius:8px 8px 4px 4px;background:var(--mu);opacity:.5}
+.piden{padding:0 0 70px}
+.piden ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:10px}
+.piden li{background:var(--sf);border:1px solid var(--li);border-radius:999px;padding:10px 18px;font-weight:600}
+.piden small{display:block;color:var(--mu);margin-top:14px;font-size:14px}
+.reserva{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:44px;align-items:start}
+.mesa-zona{position:sticky;top:90px;background:var(--sf);border:1px solid var(--li);border-radius:24px;padding:24px;text-align:center}
+.mesa{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
+.mesa .silla{fill:var(--li);cursor:pointer;transition:fill .15s}
+.mesa .silla.on{fill:var(--ac)}
+.mesa .silla:focus-visible{outline:none;stroke:var(--ink);stroke-width:3}
+.mesa .tabla{fill:var(--bg);stroke:var(--li);stroke-width:2}
+.mesa text{fill:var(--ink);font:700 44px var(--dsp)}
+.mesa .sub{font:600 14px var(--bod);fill:var(--mu)}
+.contador{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:10px}
+.contador button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--li);background:var(--bg);font-size:22px;font-weight:700;cursor:pointer;color:var(--ink)}
+.horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px}
+.horas .chip{border-radius:12px;padding:10px 8px;font-variant-numeric:tabular-nums}
+.confirmar{background:var(--sf);border:1px solid var(--li);border-radius:20px;padding:22px;margin-top:8px}
+.confirmar p{margin:0;font-weight:600}
+.confirmar .btn{width:100%;margin-top:14px}
+.confirmar .btn[aria-disabled="true"]{opacity:.55}
+@media (max-width:860px){.hero-in,.reserva{grid-template-columns:minmax(0,1fr)}.plato{display:none}.mesa-zona{position:static}}
+</style>
+</head>
+<body>
+<header class="barra">
+  <div class="wrap barra-in">
+    <a class="marca" href="#inicio">Restaurant Vizcaya</a>
+    <div class="barra-der">
+      <span class="estado" data-estado><i></i><span class="largo">Horario</span><span class="corto">Horario</span></span>
+      <a class="btn btn-s btn-sm ocultar-movil" href="tel:+18096862466"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>Llamar</a>
+    </div>
+  </div>
+</header>
+<main id="inicio">
+<section class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <p class="cocina">Cocina española</p>
+      <h1>Restaurant Vizcaya</h1>
+      <p class="lema">Paella, mariscos y porciones para compartir.</p>
+      <p class="intro">Un clásico español con un equipo que te atiende como en familia. ¿Cumpleaños? Te lo cantan con bizcocho y vela.</p>
+      <div class="acciones">
+        <a class="btn btn-p" href="#reservar">Reservar mesa</a>
+        <a class="btn btn-s" href="#visitanos">Horario y ubicación</a>
+      </div>
+    </div>
+    <div class="plato" aria-hidden="true"></div>
+  </div>
+</section>
+<section class="piden" aria-labelledby="t-piden">
+  <div class="wrap">
+    <h2 class="titulo" id="t-piden">Lo que más piden</h2>
+    <ul><li>Paella</li><li>Arroz con mariscos</li><li>Cocina española clásica</li></ul>
+    <small>Según lo que más mencionan sus clientes en las reseñas de Google.</small>
+  </div>
+</section>
+<section class="sec" id="reservar" aria-labelledby="t-reservar" style="border-top:1px solid var(--li)">
+  <div class="wrap">
+    <h2 class="titulo" id="t-reservar">Reserva tu mesa</h2>
+    <p class="bajada">Toca las sillas para decir cuántos van, elige día y hora, y envía la reserva por WhatsApp. El restaurante te confirma.</p>
+    <div class="reserva">
+      <div class="mesa-zona">
+        <svg class="mesa" viewBox="0 0 340 340" role="group" aria-label="Toca las sillas para elegir cuántas personas"><rect class="silla" data-n="1" tabindex="0" role="button" aria-label="Mesa para 1" x="148.0" y="28.0" width="44" height="28" rx="10" transform="rotate(0.0 170.0 42.0)"/><rect class="silla" data-n="2" tabindex="0" role="button" aria-label="Mesa para 2" x="223.2" y="52.4" width="44" height="28" rx="10" transform="rotate(36.0 245.2 66.4)"/><rect class="silla" data-n="3" tabindex="0" role="button" aria-label="Mesa para 3" x="269.7" y="116.4" width="44" height="28" rx="10" transform="rotate(72.0 291.7 130.4)"/><rect class="silla" data-n="4" tabindex="0" role="button" aria-label="Mesa para 4" x="269.7" y="195.6" width="44" height="28" rx="10" transform="rotate(108.0 291.7 209.6)"/><rect class="silla" data-n="5" tabindex="0" role="button" aria-label="Mesa para 5" x="223.2" y="259.6" width="44" height="28" rx="10" transform="rotate(144.0 245.2 273.6)"/><rect class="silla" data-n="6" tabindex="0" role="button" aria-label="Mesa para 6" x="148.0" y="284.0" width="44" height="28" rx="10" transform="rotate(180.0 170.0 298.0)"/><rect class="silla" data-n="7" tabindex="0" role="button" aria-label="Mesa para 7" x="72.8" y="259.6" width="44" height="28" rx="10" transform="rotate(216.0 94.8 273.6)"/><rect class="silla" data-n="8" tabindex="0" role="button" aria-label="Mesa para 8" x="26.3" y="195.6" width="44" height="28" rx="10" transform="rotate(252.0 48.3 209.6)"/><rect class="silla" data-n="9" tabindex="0" role="button" aria-label="Mesa para 9" x="26.3" y="116.4" width="44" height="28" rx="10" transform="rotate(288.0 48.3 130.4)"/><rect class="silla" data-n="10" tabindex="0" role="button" aria-label="Mesa para 10" x="72.8" y="52.4" width="44" height="28" rx="10" transform="rotate(324.0 94.8 66.4)"/><circle class="tabla" cx="170" cy="170" r="92"/><text x="170" y="178" text-anchor="middle" id="m-num">2</text><text class="sub" x="170" y="204" text-anchor="middle" id="m-sub">personas</text></svg>
+        <div class="contador"><button type="button" id="menos" aria-label="Una persona menos">−</button><span class="etq" style="margin:0">Personas</span><button type="button" id="mas" aria-label="Una persona más">+</button></div>
+      </div>
+      <div>
+        <fieldset class="grupo"><legend>¿Qué día?</legend><div class="chips" id="dias"></div></fieldset>
+        <fieldset class="grupo"><legend>¿A qué hora?</legend><div class="horas" id="horas"><p class="aviso">Primero elige el día.</p></div></fieldset>
+        <fieldset class="grupo"><legend>¿Hay algo que celebrar? (opcional)</legend><div class="chips" id="ocasion"><button type="button" class="chip" data-v="Cumpleaños" aria-pressed="false">Cumpleaños</button><button type="button" class="chip" data-v="Aniversario" aria-pressed="false">Aniversario</button><button type="button" class="chip" data-v="Comida de negocios" aria-pressed="false">Comida de negocios</button><button type="button" class="chip" data-v="Solo por gusto" aria-pressed="false">Solo por gusto</button></div></fieldset>
+        <div class="campo"><label for="nombre">A nombre de</label><input type="text" id="nombre" autocomplete="name" maxlength="60"></div>
+        <div class="confirmar" aria-live="polite">
+          <p id="resumen">2 personas</p>
+          <a class="btn btn-wa" id="enviar" target="_blank" rel="noopener" aria-disabled="true"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .3-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.2 1-2.5c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg>Enviar reserva por WhatsApp</a>
+          <p class="aviso" id="aviso" tabindex="-1"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="sec info" id="visitanos" aria-labelledby="t-visita">
+  <div class="wrap info-in">
+    <div>
+      <h2 class="titulo" id="t-visita">Horario</h2>
+      <ul class="horario" id="horario"></ul>
+    </div>
+    <div class="donde">
+      <h2 class="titulo">Visítanos</h2>
+      <p>Av. San Martín 42, Santo Domingo</p>
+      <p>Teléfono: <a href="tel:+18096862466">809-686-2466</a></p>
+      <a class="resena" href="https://maps.google.com/?cid=13444326777655555943" target="_blank" rel="noopener"><b>4.4</b><span><span class="estrellas" aria-hidden="true">★★★★</span><br>3,033 reseñas en Google</span></a>
+      <div class="acciones">
+        <a class="btn btn-p" href="https://maps.google.com/?cid=13444326777655555943" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.6-7-11a7 7 0 0 1 14 0c0 5.4-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>Cómo llegar</a>
+        <a class="btn btn-wa" data-wa-simple="Hola, Vizcaya. Tengo una pregunta." href="https://wa.me/18096862466" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .3-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.2 1-2.5c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg>WhatsApp</a>
+        <a class="btn btn-s" href="tel:+18096862466"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/></svg>Llamar</a>
+        <a class="btn btn-s btn-sm" href="https://linktr.ee/Vizcaya1955" target="_blank" rel="noopener">Linktree</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="pie">
+  <div class="wrap pie-in">
+    <span>© <span id="anio">2026</span> Restaurant Vizcaya</span>
+    <span>Vista previa preparada por <a href="https://novasitesstudio.github.io" target="_blank" rel="noopener">Nova Sites Studio</a></span>
+  </div>
+</footer>
+<a class="flota" data-wa-simple="Hola, Vizcaya. Vi su página y tengo una pregunta." href="https://wa.me/18096862466" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .3-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.2-1.6-1.2-3s.7-2.2 1-2.5c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2.1c.1.2.1.4 0 .6l-.4.6-.4.5c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.7-.1l.9-1.1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.3.1.2.1.7-.1 1.3Z"/></svg></a>
+<script>
+const N={"tel": "18096862466", "horas": [[10.5, 23], [10.5, 23], [10.5, 23], [10.5, 23], [10.5, 23.5], [10.5, 23], [10.5, 23]], "nombre": "Restaurant Vizcaya", "corto": "Vizcaya"};
+
+const DIAS=["lunes","martes","miércoles","jueves","viernes","sábado","domingo"];
+const DIAS_C=["lun","mar","mié","jue","vie","sáb","dom"];
+function ahoraSD(){
+  const p=Object.fromEntries(new Intl.DateTimeFormat("en-US",{timeZone:"America/Santo_Domingo",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false,weekday:"short"}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  const dow={Mon:0,Tue:1,Wed:2,Thu:3,Fri:4,Sat:5,Sun:6}[p.weekday];
+  const h=(Number(p.hour)%24)+Number(p.minute)/60;
+  return {dow,h,y:Number(p.year),m:Number(p.month),d:Number(p.day)};
+}
+function hora(x){x=x%24;let h=Math.floor(x),m=Math.round((x-h)*60);if(m===60){h++;m=0}const s=h<12||h===24?"am":"pm";const h12=h%12||12;return h12+":"+String(m).padStart(2,"0")+" "+s}
+function rango(r){return r?(r[0]===0&&r[1]>=24?"24 horas":hora(r[0])+" – "+hora(r[1])):"Cerrado"}
+function proximosDias(n){const a=ahoraSD();const out=[];for(let i=0;i<n;i++){const f=new Date(Date.UTC(a.y,a.m-1,a.d+i,12));const dow=(f.getUTCDay()+6)%7;out.push({i,dow,fecha:f,etq:i===0?"Hoy":i===1?"Mañana":DIAS_C[dow]+" "+f.getUTCDate(),largo:i===0?"hoy":i===1?"mañana":DIAS[dow]+" "+f.getUTCDate()})}return out}
+function estado(){
+  const a=ahoraSD();const r=N.horas[a.dow];
+  if(r&&r[0]===0&&r[1]>=24)return{abierto:true,txt:"Abierto las 24 horas",corto:"Abierto 24 horas"};
+  const ay=N.horas[(a.dow+6)%7];if(ay&&ay[1]>24&&a.h<ay[1]-24)return{abierto:true,txt:"Abierto ahora · cierra a las "+hora(ay[1]),corto:"Abierto · hasta "+hora(ay[1])};
+  if(r&&a.h>=r[0]&&a.h<r[1])return{abierto:true,txt:"Abierto ahora · cierra a las "+hora(r[1]),corto:"Abierto · hasta "+hora(r[1])};
+  if(r&&a.h<r[0])return{abierto:false,txt:"Cerrado · abre hoy a las "+hora(r[0]),corto:"Abre a las "+hora(r[0])};
+  for(let k=1;k<=7;k++){const d=(a.dow+k)%7;const rr=N.horas[d];if(rr)return{abierto:false,txt:"Cerrado · abre "+(k===1?"mañana":"el "+DIAS[d])+" a las "+hora(rr[0]),corto:"Cerrado ahora"}}
+  return{abierto:false,txt:"Cerrado",corto:"Cerrado"};
+}
+const wa=(msg)=>"https://wa.me/"+N.tel+"?text="+encodeURIComponent(msg);
+function pintarComun(){
+  const e=estado();
+  document.querySelectorAll("[data-estado]").forEach(el=>{el.classList.toggle("abierto",e.abierto);el.classList.toggle("cerrado",!e.abierto);el.querySelector(".largo").textContent=e.txt;el.querySelector(".corto").textContent=e.corto});
+  const hoy=ahoraSD().dow;const ul=document.getElementById("horario");
+  if(ul){ul.textContent="";N.horas.forEach((r,i)=>{const li=document.createElement("li");if(i===hoy)li.className="hoy";const a=document.createElement("span");a.textContent=DIAS[i].charAt(0).toUpperCase()+DIAS[i].slice(1)+(i===hoy?" (hoy)":"");const b=document.createElement("span");b.textContent=rango(r);li.append(a,b);ul.append(li)})}
+  document.querySelectorAll("[data-wa-simple]").forEach(a=>a.href=wa(a.dataset.waSimple));
+  const y=document.getElementById("anio");if(y)y.textContent=ahoraSD().y;
+}
+function chipsUnico(cont,onChange){cont.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b||b.disabled)return;cont.querySelectorAll(".chip").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));onChange&&onChange(b)})}
+function chipsMulti(cont,onChange){cont.addEventListener("click",e=>{const b=e.target.closest(".chip");if(!b||b.disabled)return;b.setAttribute("aria-pressed",String(b.getAttribute("aria-pressed")!=="true"));onChange&&onChange(b)})}
+const elegidos=(cont)=>[...cont.querySelectorAll('.chip[aria-pressed="true"]')].map(b=>b.dataset.v);
+function crearChip(txt,v,attrs={}){const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=txt;b.dataset.v=v;b.setAttribute("aria-pressed","false");for(const[k,x]of Object.entries(attrs))b[k]=x;return b}
+function listaTexto(a){return a.length<=1?(a[0]||""):a.slice(0,-1).join(", ")+" y "+a[a.length-1]}
+function botonEnvio(btn,aviso,msg,faltan){
+  if(faltan.length){btn.dataset.listo="0";btn.removeAttribute("href");btn.setAttribute("aria-disabled","true");aviso.textContent="Falta: "+listaTexto(faltan)+".";aviso.className="aviso"}
+  else{btn.dataset.listo="1";btn.href=wa(msg);btn.removeAttribute("aria-disabled");aviso.textContent="Se abre WhatsApp con tu mensaje listo. Solo dale a enviar.";aviso.className="aviso"}
+}
+function vigilarEnvio(btn,aviso){btn.addEventListener("click",e=>{if(btn.dataset.listo!=="1"){e.preventDefault();aviso.className="aviso falta";aviso.focus&&aviso.focus()}})}
+function franjas(r,paso,margenFin){if(!r)return[];const out=[];for(let t=Math.ceil(r[0]*2)/2;t<=r[1]-margenFin+1e-6;t+=paso)out.push(Math.round(t*100)/100);return out}
+
+(()=>{
+  const $=s=>document.querySelector(s);
+  const OCAS={"Cumpleaños":"un cumpleaños","Aniversario":"un aniversario","Comida de negocios":"una comida de negocios"};
+  let personas=2,dia=null,horaSel=null;const dias=proximosDias(7);
+  const sillas=[...document.querySelectorAll(".silla")];
+  function pintarMesa(){sillas.forEach(s=>s.classList.toggle("on",Number(s.dataset.n)<=personas));$("#m-num").textContent=personas;$("#m-sub").textContent=personas===1?"persona":"personas";actualizar()}
+  sillas.forEach(s=>{const f=()=>{personas=Number(s.dataset.n);pintarMesa()};s.addEventListener("click",f);s.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f()}})});
+  $("#menos").addEventListener("click",()=>{if(personas>1){personas--;pintarMesa()}});
+  $("#mas").addEventListener("click",()=>{if(personas<20){personas++;pintarMesa()}});
+  const cDias=$("#dias"),cHoras=$("#horas");
+  dias.forEach(d=>{const r=N.horas[d.dow];const b=crearChip(d.etq,String(d.i),{disabled:!r});cDias.append(b)});
+  function pintarHoras(){
+    cHoras.textContent="";horaSel=null;const d=dias[dia];const a=ahoraSD();
+    franjas(N.horas[d.dow],.5,1.5).forEach(t=>{cHoras.append(crearChip(hora(t),String(t),{disabled:d.i===0&&t<=a.h+.5}))});
+    if(!cHoras.children.length||[...cHoras.children].every(b=>b.disabled)){cHoras.textContent="";const p=document.createElement("p");p.className="aviso";p.textContent="Ya no quedan horarios hoy. Elige otro día.";cHoras.append(p)}
+  }
+  chipsUnico(cDias,b=>{dia=Number(b.dataset.v);pintarHoras();actualizar()});
+  chipsUnico(cHoras,b=>{horaSel=Number(b.dataset.v);actualizar()});
+  chipsUnico($("#ocasion"),actualizar);
+  $("#nombre").addEventListener("input",actualizar);
+  function actualizar(){
+    const oc=elegidos($("#ocasion"))[0];const nom=$("#nombre").value.trim();
+    const p=personas+(personas===1?" persona":" personas");
+    $("#resumen").textContent=[p,dia!==null?dias[dia].etq:null,horaSel!==null?hora(horaSel):null,oc||null].filter(Boolean).join(" · ");
+    const msg="Hola, "+N.corto+". Quisiera reservar una mesa para "+p+" "+(dia!==null?dias[dia].largo:"")+" a las "+(horaSel!==null?hora(horaSel):"")+"."+(oc&&OCAS[oc]?" Es para "+OCAS[oc]+".":"")+(nom?" A nombre de "+nom+".":"")+" ¿Tienen disponibilidad?";
+    const faltan=[];if(dia===null)faltan.push("el día");if(horaSel===null)faltan.push("la hora");
+    botonEnvio($("#enviar"),$("#aviso"),msg,faltan);
+  }
+  vigilarEnvio($("#enviar"),$("#aviso"));
+  pintarComun();pintarMesa();
+})();
+</script>
+</body>
+</html>
