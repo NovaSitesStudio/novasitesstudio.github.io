@@ -202,6 +202,7 @@ function hora(x){x=x%24;let h=Math.floor(x),m=Math.round((x-h)*60);if(m===60){h+
 function rango(r){return r?(r[0]===0&&r[1]>=24?"24 horas":hora(r[0])+" – "+hora(r[1])):"Cerrado"}
 function proximosDias(n){const a=ahoraSD();const out=[];for(let i=0;i<n;i++){const f=new Date(Date.UTC(a.y,a.m-1,a.d+i,12));const dow=(f.getUTCDay()+6)%7;out.push({i,dow,fecha:f,etq:i===0?"Hoy":i===1?"Mañana":DIAS_C[dow]+" "+f.getUTCDate(),largo:i===0?"hoy":i===1?"mañana":DIAS[dow]+" "+f.getUTCDate()})}return out}
 function estado(){
+  if(!N.horas)return{abierto:null,txt:"Horario por confirmar",corto:"Horario por confirmar"};
   const a=ahoraSD();const r=N.horas[a.dow];
   if(r&&r[0]===0&&r[1]>=24)return{abierto:true,txt:"Abierto las 24 horas",corto:"Abierto 24 horas"};
   const ay=N.horas[(a.dow+6)%7];if(ay&&ay[1]>24&&a.h<ay[1]-24)return{abierto:true,txt:"Abierto ahora · cierra a las "+hora(ay[1]),corto:"Abierto · hasta "+hora(ay[1])};
@@ -210,12 +211,12 @@ function estado(){
   for(let k=1;k<=7;k++){const d=(a.dow+k)%7;const rr=N.horas[d];if(rr)return{abierto:false,txt:"Cerrado · abre "+(k===1?"mañana":"el "+DIAS[d])+" a las "+hora(rr[0]),corto:"Cerrado ahora"}}
   return{abierto:false,txt:"Cerrado",corto:"Cerrado"};
 }
-const wa=(msg)=>"https://wa.me/"+N.tel+"?text="+encodeURIComponent(msg);
+const wa=(msg)=>N.tel?"https://wa.me/"+N.tel+"?text="+encodeURIComponent(msg):"#aviso";
 function pintarComun(){
   const e=estado();
-  document.querySelectorAll("[data-estado]").forEach(el=>{el.classList.toggle("abierto",e.abierto);el.classList.toggle("cerrado",!e.abierto);el.querySelector(".largo").textContent=e.txt;el.querySelector(".corto").textContent=e.corto});
+  document.querySelectorAll("[data-estado]").forEach(el=>{el.classList.toggle("abierto",e.abierto===true);el.classList.toggle("cerrado",e.abierto===false);el.querySelector(".largo").textContent=e.txt;el.querySelector(".corto").textContent=e.corto});
   const hoy=ahoraSD().dow;const ul=document.getElementById("horario");
-  if(ul){ul.textContent="";N.horas.forEach((r,i)=>{const li=document.createElement("li");if(i===hoy)li.className="hoy";const a=document.createElement("span");a.textContent=DIAS[i].charAt(0).toUpperCase()+DIAS[i].slice(1)+(i===hoy?" (hoy)":"");const b=document.createElement("span");b.textContent=rango(r);li.append(a,b);ul.append(li)})}
+  if(ul){ul.textContent="";if(!N.horas){const li=document.createElement("li");li.textContent="Horario por confirmar con el negocio.";ul.append(li)}else N.horas.forEach((r,i)=>{const li=document.createElement("li");if(i===hoy)li.className="hoy";const a=document.createElement("span");a.textContent=DIAS[i].charAt(0).toUpperCase()+DIAS[i].slice(1)+(i===hoy?" (hoy)":"");const b=document.createElement("span");b.textContent=rango(r);li.append(a,b);ul.append(li)})}
   document.querySelectorAll("[data-wa-simple]").forEach(a=>a.href=wa(a.dataset.waSimple));
   const y=document.getElementById("anio");if(y)y.textContent=ahoraSD().y;
 }
@@ -226,9 +227,9 @@ function crearChip(txt,v,attrs={}){const b=document.createElement("button");b.ty
 function listaTexto(a){return a.length<=1?(a[0]||""):a.slice(0,-1).join(", ")+" y "+a[a.length-1]}
 function botonEnvio(btn,aviso,msg,faltan){
   if(faltan.length){btn.dataset.listo="0";btn.removeAttribute("href");btn.setAttribute("aria-disabled","true");aviso.textContent="Falta: "+listaTexto(faltan)+".";aviso.className="aviso"}
-  else{btn.dataset.listo="1";btn.href=wa(msg);btn.removeAttribute("aria-disabled");aviso.textContent="Se abre WhatsApp con tu mensaje listo. Solo dale a enviar.";aviso.className="aviso"}
+  else{btn.dataset.listo="1";btn.dataset.msg=msg;btn.href=wa(msg);btn.removeAttribute("aria-disabled");aviso.textContent=N.tel?"Se abre WhatsApp con tu mensaje listo. Solo dale a enviar.":"Toca el botón y tu pedido queda copiado, listo para enviarlo.";aviso.className="aviso"}
 }
-function vigilarEnvio(btn,aviso){btn.addEventListener("click",e=>{if(btn.dataset.listo!=="1"){e.preventDefault();aviso.className="aviso falta";aviso.focus&&aviso.focus()}})}
+function vigilarEnvio(btn,aviso){btn.addEventListener("click",e=>{if(btn.dataset.listo!=="1"){e.preventDefault();aviso.className="aviso falta";aviso.focus&&aviso.focus()}else if(!N.tel){e.preventDefault();const m=btn.dataset.msg;const ver=()=>{aviso.textContent=m};try{navigator.clipboard.writeText(m).then(()=>{aviso.textContent="Listo: tu pedido quedó copiado."},ver)}catch(_){ver()}}})}
 function franjas(r,paso,margenFin){if(!r)return[];const out=[];for(let t=Math.ceil(r[0]*2)/2;t<=r[1]-margenFin+1e-6;t+=paso)out.push(Math.round(t*100)/100);return out}
 
 (()=>{
